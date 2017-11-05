@@ -4,11 +4,13 @@ import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 
 public class KdTree {
-    
+
     public static final boolean VERTICAL = false;
-    
+
     private static final boolean HORIZONTAL = true;
+
     private TreeSet<Node> points;
+
     public KdTree()                               // construct an empty set of points 
     {
         points = new TreeSet<>();
@@ -24,6 +26,7 @@ public class KdTree {
     public void insert(Point2D p)              // add the point to the set (if it is not already in the set)
     {
         validate(p);
+        points.add(new Node(p));
     }
     public boolean contains(Point2D p)            // does the set contain point p? 
     {
@@ -52,12 +55,18 @@ public class KdTree {
         private Node rt;        // the right/top subtree
         private boolean orientation;
         private Node father;
-        
+
         public Node(Point2D p) {
             this(p, null, null, null, VERTICAL);
-            if (this.father == null || this.father.orientation == VERTICAL)
+            if (this.father == null || this.father.orientation == VERTICAL)    
                 this.orientation = HORIZONTAL;
-        }
+            if ((this.orientation == HORIZONTAL && this.p.x() < this.father.p.x()) ||
+                    (this.orientation == VERTICAL && this.p.y() < this.father.p.y())) {
+                this.father.lb = this;
+            } else {
+                this.father.rt = this;
+            }
+        }  
         public Node(Point2D p, RectHV rect, Node lb, Node rt, boolean orientation) {
             super();
             this.p = p;
@@ -66,8 +75,8 @@ public class KdTree {
             this.rt = rt;
             this.orientation = orientation;
         }
-        
-     }
+
+    }
     public static void main(String[] args)                  // unit testing of the methods (optional)
     {}
 }
