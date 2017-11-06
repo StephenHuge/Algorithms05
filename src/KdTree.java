@@ -1,6 +1,7 @@
 import java.util.TreeSet;
 
 import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 
@@ -96,11 +97,9 @@ public class KdTree {
         StdDraw.setPenRadius();
         
         if (node.dir() == VERTICAL) {
-//            System.out.println("why not draw?");
             StdDraw.setPenColor(StdDraw.RED);
             StdDraw.line(node.p.x(), node.rect().ymin(), node.p.x(), node.rect().ymax());
         } else {
-//            System.out.println("why not draw?");
             StdDraw.setPenColor(StdDraw.BLUE);
             StdDraw.line(node.rect().xmin(), node.p.y(), node.rect().xmax(), node.p.y());
         }
@@ -111,7 +110,16 @@ public class KdTree {
     public Iterable<Point2D> range(RectHV rect)             // all points that are inside the rectangle (or on the boundary)
     {
         if (rect == null)   throw new java.lang.IllegalArgumentException();
-        return null;
+        Queue<Point2D> inners = new Queue<>();
+        range(rect, root, inners);
+        return inners;
+    }
+    private Iterable<Point2D> range(RectHV rect, Node mRoot, Queue<Point2D> inners) {
+        if (mRoot == null)  return inners;
+        if (rect.contains(mRoot.p))  inners.enqueue(mRoot.p);
+        range(rect, mRoot.lb, inners);
+        range(rect, mRoot.rt, inners);
+        return inners;
     }
     public Point2D nearest(Point2D p)             // a nearest neighbor in the set to point p; null if the set is empty
     {
