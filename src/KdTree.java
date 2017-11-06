@@ -49,19 +49,16 @@ public class KdTree {
         // if root's orientation is vertical, compare x-coordinate, else compare y-coordinate
         int cpr;  
         RectHV rectHV;  // get current rect
-        Node next;
         if (mRoot.orientation == VERTICAL)  cpr = Point2D.X_ORDER.compare(p, mRoot.p);
         else                                cpr = Point2D.Y_ORDER.compare(p, mRoot.p); 
         if (cpr < 0) {
-            rectHV = pruneRectLB(p, rect, mRoot.dir());
-            next = mRoot.lb;
-            mRoot.lb = insert(p, next, !mRoot.dir(), rectHV);  // recursively insert this point
+            rectHV = pruneRectLB(mRoot.p, rect, mRoot.dir());
+            mRoot.lb = insert(p, mRoot.lb, !mRoot.dir(), rectHV);  // recursively insert this point
         } else {
-            next = mRoot.rt;
-            rectHV = pruneRectRT(p, rect, mRoot.dir());
-            mRoot.rt = insert(p, next, !mRoot.dir(), rectHV);  // recursively insert this point
+            rectHV = pruneRectRT(mRoot.p, rect, mRoot.dir());
+            mRoot.rt = insert(p, mRoot.rt, !mRoot.dir(), rectHV);  // recursively insert this point
         }   
-        return null;
+        return mRoot;
     }
     
     private RectHV pruneRectLB(Point2D father, RectHV rect, boolean fatherDir) {
@@ -134,6 +131,8 @@ public class KdTree {
         public Node(Point2D mP, RectHV mRect, boolean mOrientation) {
             this.p = mP;
             this.rect = mRect;
+            this.lb = null;
+            this.rt = null;
             this.orientation = mOrientation;
         }
         public boolean dir() {
