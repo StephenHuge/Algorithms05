@@ -39,12 +39,12 @@ public class KdTree {
         } else {
             insert(p, root, !root.dir(), root.rect);    // direction is different from root's
         }
-        System.out.println("size is  " + size());
+//        System.out.println("size is  " + size());
     }
     private Node insert(Point2D p, Node mRoot, boolean dir, RectHV rect) {
         if (mRoot == null) {
             mRoot = new Node(p, rect, dir);     // 
-            System.out.println("insert node : \n" + mRoot);
+//            System.out.println("insert node : \n" + mRoot);
             return mRoot;
         } 
         // if root's orientation is vertical, compare x-coordinate, else compare y-coordinate
