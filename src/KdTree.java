@@ -124,7 +124,19 @@ public class KdTree {
     public Point2D nearest(Point2D p)             // a nearest neighbor in the set to point p; null if the set is empty
     {
         validate(p);
-        return null;
+        Point2D ans = root.p;
+        ans = nearest(p, root, ans);
+        return ans;
+    }
+    private Point2D nearest(Point2D p, Node mRoot, Point2D ans) {
+        if (mRoot == null)  return ans;
+        double d = p.distanceTo(ans);
+        ans = d < p.distanceTo(mRoot.p) ? ans : mRoot.p;
+        
+        if (mRoot.lb != null && mRoot.lb.rect.distanceTo(p) < d)    ans = nearest(p, mRoot.lb, ans);
+        if (mRoot.rt != null && mRoot.rt.rect.distanceTo(p) < d)    ans = nearest(p, mRoot.rt, ans);
+        
+        return  ans;
     }
     private void validate(Point2D p) {
         if (p == null) throw new java.lang.IllegalArgumentException();
