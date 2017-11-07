@@ -7,7 +7,7 @@ import edu.princeton.cs.algs4.StdDraw;
 
 public class PointSET {
     
-    private TreeSet<Point2D> points;
+    private final TreeSet<Point2D> points;
     
     public PointSET()                               // construct an empty set of points 
     {
@@ -53,9 +53,10 @@ public class PointSET {
     public Point2D nearest(Point2D p)             // a nearest neighbor in the set to point p; null if the set is empty
     {
         validate(p);
+        if (size() == 0)    return null;
         Point2D nearest = points.first();
         for (Point2D p2d : points) {
-            if (p2d.distanceTo(p) < nearest.distanceTo(p)) nearest = p2d;
+            if (p2d.distanceSquaredTo(p) < nearest.distanceSquaredTo(p)) nearest = p2d;
         }
         return nearest;
     }
