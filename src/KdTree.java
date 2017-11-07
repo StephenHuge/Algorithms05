@@ -122,12 +122,11 @@ public class KdTree {
         range(rect, root, inners);
         return inners;
     }
-    private Iterable<Point2D> range(RectHV rect, Node mRoot, Queue<Point2D> inners) {
-        if (mRoot == null)  return inners;
+    private void range(RectHV rect, Node mRoot, Queue<Point2D> inners) {
+        if (mRoot == null)  return;
         if (rect.contains(mRoot.p))  inners.enqueue(mRoot.p);
         range(rect, mRoot.lb, inners);
         range(rect, mRoot.rt, inners);
-        return inners;
     }
     public Point2D nearest(Point2D p)             // a nearest neighbor in the set to point p; null if the set is empty
     {
