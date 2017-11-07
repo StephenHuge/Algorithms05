@@ -44,7 +44,10 @@ public class KdTree {
 //            System.out.println("insert node : \n" + mRoot);
             return mRoot;
         } 
-        if (mRoot.p.equals(p))  return mRoot;
+        if (mRoot.p.equals(p)) {    
+            size--; // in case there is one p, minus 1 to keep size right
+            return mRoot;
+        }  
         // if root's orientation is vertical, compare x-coordinate, else compare y-coordinate
         int cpr;  
         RectHV rectHV;  // get current rect
