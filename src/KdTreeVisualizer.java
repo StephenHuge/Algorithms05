@@ -13,6 +13,7 @@ import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
+@SuppressWarnings("unused")
 public class KdTreeVisualizer {
 
     public static void main(String[] args) {
